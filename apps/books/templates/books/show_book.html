@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Review of the book</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.min.css">
+  <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+</head>
+
+<body>
+  <div class="container">
+    {% include 'books/nav.html' %}
+    <section class="section">
+
+      <h1 class="subtitle">
+        <strong>
+          {{ book.title }}
+        </strong>
+      </h1>
+      <p class="subtitle">
+        Author: {{ book.author }}
+      </p>
+      <div class="columns">
+        <div class="column">
+          <p class="subtitle">
+            <strong>
+              Reviews:
+            </strong>
+          </p>
+          {% for review in reviews reversed %}
+          {% if review.review == '' %}
+
+          {% else %}
+          <div class="box">
+            <p class="is-5">
+              Rating:
+              {% if review.rating == 1 %}
+              <span class="icon is-small has-text-warning"><i class="fas fa-star"></i></span>
+              <span class="icon is-small has-text-warning"><i class="far fa-star"></i></span>
+              <span class="icon is-small has-text-warning"><i class="far fa-star"></i></span>
+              <span class="icon is-small has-text-warning"><i class="far fa-star"></i></span>
+              <span class="icon is-small has-text-warning"><i class="far fa-star"></i></span>
+              {% elif review.rating == 2  %}
+              <span class="icon is-small has-text-warning"><i class="fas fa-star"></i></span>
+              <span class="icon is-small has-text-warning"><i class="fas fa-star"></i></span>
+              <span class="icon is-small has-text-warning"><i class="far fa-star"></i></span>
+              <span class="icon is-small has-text-warning"><i class="far fa-star"></i></span>
+              <span class="icon is-small has-text-warning"><i class="far fa-star"></i></span>
+              {% elif review.rating == 3  %}
+              <span class="icon is-small has-text-warning"><i class="fas fa-star"></i></span>
+              <span class="icon is-small has-text-warning"><i class="fas fa-star"></i></span>
+              <span class="icon is-small has-text-warning"><i class="fas fa-star"></i></span>
+              <span class="icon is-small has-text-warning"><i class="far fa-star"></i></span>
+              <span class="icon is-small has-text-warning"><i class="far fa-star"></i></span>
+              {% elif review.rating == 4  %}
+              <span class="icon is-small has-text-warning"><i class="fas fa-star"></i></span>
+              <span class="icon is-small has-text-warning"><i class="fas fa-star"></i></span>
+              <span class="icon is-small has-text-warning"><i class="fas fa-star"></i></span>
+              <span class="icon is-small has-text-warning"><i class="fas fa-star"></i></span>
+              <span class="icon is-small has-text-warning"><i class="far fa-star"></i></span>
+              {% elif review.rating == 5  %}
+              <span class="icon is-small has-text-warning"><i class="fas fa-star"></i></span>
+              <span class="icon is-small has-text-warning"><i class="fas fa-star"></i></span>
+              <span class="icon is-small has-text-warning"><i class="fas fa-star"></i></span>
+              <span class="icon is-small has-text-warning"><i class="fas fa-star"></i></span>
+              <span class="icon is-small has-text-warning"><i class="fas fa-star"></i></span>
+              {% endif %}
+
+            </p>
+            <p class="is-5">
+              <a href="{% url 'users:show' review.review_by.id %}" class="button is-text">
+                {{ review.review_by.first_name }}
+              </a>
+
+              Says: {{ review.review }}
+            </p>
+            <p class="is-5">
+              Posted on: {{ review.created_at }}
+            </p>
+            {% if review.review_by.id == request.session.user_id %}
+            <a href="{% url 'books:delete_review' review.id %}" class="button is-text">
+              Delete Review
+            </a>
+            {% endif %}
+          </div>
+          {% endif %}
+          {% endfor %}
+        </div>
+
+        <div class="column">
+          <p class="subtitle">
+            <strong>
+              Add a Review:
+            </strong>
+          </p>
+
+          <form action="{% url 'books:add_review' book.id %}" method="POST">
+            {% csrf_token %}
+            <div class="field">
+              <div class="field-body">
+                <div class="field">
+                  <div class="control">
+                    <textarea name="review" class="textarea" placeholder="Give your review here"></textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <label class="label">Rating</label>
+            <div class="field is-horizontal">
+              <div class="field-body">
+                <div class="field is-narrow">
+                  <div class="control">
+                    <div class="select is-fullwidth">
+                      <select name="rating">
+                        <option value=1>1</option>
+                        <option value=2>2</option>
+                        <option value=3>3</option>
+                        <option value=4>4</option>
+                        <option value=5>5</option>
+                      </select>
+                    </div>
+                  </div>
+                  Stars
+                </div>
+              </div>
+            </div>
+
+            <div class="field">
+              <div class="field-label">
+              </div>
+              <div class="field-body">
+                <div class="field">
+                  <div class="control">
+                    <button class="button is-primary" type="submit">
+                      Add Review
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </div>
+</body>
+
+</html>

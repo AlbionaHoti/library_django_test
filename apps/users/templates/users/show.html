@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hello Bulma!</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.min.css">
+  <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+</head>
+
+<body>
+  <div class="container">
+    {% include 'users/nav.html' %}
+    <section class="section">
+
+      <h1 class="subtitle">
+        User: <strong>{{ user.first_name }}</strong>
+      </h1>
+      <p class="subtitle">
+        Name: <strong>{{ user.first_name }} {{ user.last_name }} </strong>!
+      </p>
+      <p class="subtitle">
+        Email: <strong>{{ user.email }} </strong>!
+      </p>
+
+      <p class="subtitle">
+        Total Reviews: {{ count_reviews }}<strong> </strong>!
+      </p>
+      <p class="subtitle">
+        Posted reviews in the following books:
+        {% for review in reviews %}
+        <p class="subtitle">
+          <a href="{% url 'books:show_book' review.review_to.id %}" class="button is-text">
+            <strong>{{ review.review_to.title}} </strong>!
+          </a>
+        </p>
+        {% endfor %}
+      </p>
+    </section>
+  </div>
+</body>
+
+</html>
