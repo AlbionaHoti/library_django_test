@@ -42,17 +42,17 @@ class Book(models.Model):
 
 class ReviewManager(models.Manager):
     def easy_create(self, form, user_id):
-        # if 'book_author1' in form:
-        #     if form['book_author1'] != '':
-        #         book_author = 'book_author1'
-        # elif 'book_author2' in form:
-        #     if form['book_author2'] != '':
-        #         book_author = 'book_author2'
+        if 'book_author1' in form:
+            if form['book_author1'] != '':
+                book_author = 'book_author1'
+        elif 'book_author2' in form:
+            if form['book_author2'] != '':
+                book_author = 'book_author2'
 
         user = User.objects.get(id=user_id)
         book = Book.objects.create(
             title=form['book_title'],
-            author=form['book_author2']
+            author=form[book_author]
         )
 
         print(user)

@@ -6,7 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Books</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.min.css">
-  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
 
   <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
 </head>
@@ -102,7 +101,7 @@
             </div>
             <div class="panel-body">
               <ul class="list-group">
-                {% for book in books %}
+                {% for book in books reversed %}
                 <li class="list-group-item">
                   <strong>
                     <a href="{% url 'books:show_book' book.review_to.id %}" class="button is-text">
