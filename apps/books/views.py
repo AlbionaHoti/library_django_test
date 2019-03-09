@@ -6,7 +6,6 @@ from .models import Book, Review, User
 
 def index(request):
   books = Review.objects.all()
-  reviews = Review.objects.all()
   last_three = Review.objects.all().order_by('-id')[:3][::-1]
   user_id = request.session['user_id']
   user = User.objects.get(id=user_id)
@@ -51,30 +50,19 @@ def show_review(request, review_id):
 def show(request, book_id):
   print("Book ID: ", book_id)
   
-  try:
-    book = Book.objects.get(id = book_id)
-    
-    book_id = Book.objects.get(id = book_id)
-    print("Title Book: ", book_id.title)
-    print("Author Book: ", book_id.author)
-    user_id = request.session['user_id']
-    user = User.objects.get(id=user_id)
-    context = {
-      "reviews": Review.objects.filter(review_to=book_id),
-      "book": book_id,
-      "user": user
-    }
-  except Book.DoesNotExist:
-    
+  book = Book.objects.filter(id=book_id).first()
+  if not book:
     review = Review.objects.get(id=book_id)
+    book_id = review.review_to.id
+    book=Book.objects.get(id=book_id)
 
-    book = review.review_to.id
-    book1=Book.objects.get(id=book)
-    context = {
-      "reviews": Review.objects.filter(review_to=book),
-      "book": book1
-    }
-
+  user_id = request.session['user_id']
+  user = User.objects.get(id=user_id)
+  context = {
+    "reviews": Review.objects.filter(review_to=book),
+    "book": book,
+    "user": user
+  }
   return render(request, 'books/show_book.html', context)
 
 
