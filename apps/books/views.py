@@ -67,12 +67,9 @@ def show(request, book_id):
 
 
 def add_review(request, book_id):
-  print("Request post: ", request.POST)
   print("Book id: ", book_id)
   user_id = request.session['user_id']
   one_review_id = Review.objects.easy_review_create(request.POST, user_id, book_id)
-  print("NEW REVIEW ID: ", one_review_id)
-
   return redirect(reverse('books:show_review', kwargs={"review_id": one_review_id} ))
 
 
@@ -82,6 +79,4 @@ def delete_review(request, review_id):
   review.review = ''
   review.rating = 0
   review.save() 
-
-  print(review)
   return redirect(reverse('books:show_review', kwargs={"review_id": review_id} ))
